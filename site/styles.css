@@ -589,6 +589,14 @@ img.news-logo[alt="Fortune"] {
 }
 .bio { color: var(--text-secondary); margin: 0; font-size: 15px; }
 
+/* ── Shop banner ──────────────────────────────── */
+
+.shop-banner {
+  background: var(--surface);
+  border-top: 1px solid var(--accent-light);
+  border-bottom: 1px solid var(--accent-light);
+}
+
 /* ── Callout ───────────────────────────────────── */
 
 .callout {
