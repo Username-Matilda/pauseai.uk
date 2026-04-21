@@ -2,6 +2,7 @@
   "name": "pauseai-uk",
   "private": true,
   "scripts": {
-    "dev": "npx serve site"
+    "dev": "npx live-server site",
+    "lighthouse": "npx lighthouse https://pauseai.uk --output=html --output=json --output-path=lighthouse-report --view"
   }
 }

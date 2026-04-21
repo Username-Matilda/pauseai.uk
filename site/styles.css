@@ -12,8 +12,11 @@
   --muted: #8A7F73;
 
   /* Accent — burnt terracotta */
-  --accent: #C8652A;
+  --pause-orange: #C8652A;
+  --pause-orange-rgb: 200 101 42;
+  --accent: #B95D26;
   --accent-strong: #A84E1A;
+
   --accent-light: #F0D4BC;
   --accent-bg: #FFF5EC;
 
@@ -283,12 +286,12 @@ nav a:hover {
 .btn.primary {
   background: var(--accent);
   color: #fff;
-  box-shadow: 0 2px 8px rgba(200, 101, 42, 0.25);
+  box-shadow: 0 2px 8px rgb(var(--pause-orange-rgb) / 0.25);
 }
 .btn.primary:hover {
   background: var(--accent-strong);
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(200, 101, 42, 0.3);
+  box-shadow: 0 4px 16px rgb(var(--pause-orange-rgb) / 0.3);
 }
 .btn.ghost {
   border-color: var(--border-strong);
@@ -310,7 +313,7 @@ nav a:hover {
 .hero-photo {
   border-radius: 16px;
   min-height: 320px;
-  background: linear-gradient(135deg, rgba(200, 101, 42, 0.2), rgba(26, 22, 18, 0.35)),
+  background: linear-gradient(135deg, rgb(var(--pause-orange-rgb) / 0.2), rgba(26, 22, 18, 0.35)),
     url("images/front-page/london-2025-protest.jpg?v=2") center/cover no-repeat;
   box-shadow: 0 8px 32px var(--shadow-strong);
 }
