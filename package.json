@@ -1,0 +1,7 @@
+{
+  "name": "pauseai-uk",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve site"
+  }
+}
