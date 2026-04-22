@@ -2,7 +2,7 @@ name: PR Preview
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, synchronize, reopened]
     paths:
       - "site/**"
 
@@ -123,23 +123,3 @@ jobs:
               });
             }
 
-  cleanup:
-    if: github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set preview slug
-        id: slug
-        run: |
-          echo "value=$(echo '${{ github.head_ref }}' | sed 's/[^a-zA-Z0-9_-]/-/g' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
-
-      - uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-
-      - name: Remove preview directory
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git rm -rf preview/${{ steps.slug.outputs.value }} || true
-          git diff --cached --quiet || git commit -m "Remove preview for ${{ github.head_ref }}"
-          git push
