@@ -3,6 +3,8 @@ name: PR Preview
 on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
+    paths:
+      - "site/**"
 
 permissions:
   contents: write
