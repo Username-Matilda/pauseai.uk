@@ -798,12 +798,13 @@ img.news-logo[alt="Fortune"] {
 }
 .donate-intro-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* Left column slightly favoured so the photo doesn't dominate. */
+  grid-template-columns: 1.15fr 0.85fr;
   grid-template-areas:
     "head  photo"
     "text  form";
   column-gap: 48px;
-  row-gap: 32px;
+  row-gap: 28px;
   align-items: start;
 }
 .donate-intro-head  { grid-area: head; }
@@ -825,19 +826,20 @@ img.news-logo[alt="Fortune"] {
   margin: 0;
 }
 
-/* Photo — fills the right column; crop tuned via object-position. */
+/* Photo — sits in the right column as an accent, not a hero. */
 .donate-intro-photo {
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 32px var(--shadow-strong);
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
+  max-height: 280px;
   background: var(--surface-2);
 }
 .donate-intro-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Shifts visible area down ~10% so banners at the top are cropped out. */
+  /* Shifts visible area down ~15% so banners at the top are cropped out. */
   object-position: 50% 65%;
   display: block;
 }
@@ -857,6 +859,7 @@ img.news-logo[alt="Fortune"] {
   }
   .donate-intro-photo {
     aspect-ratio: 3 / 2;
+    max-height: 240px;
   }
 }
 
@@ -869,38 +872,53 @@ img.news-logo[alt="Fortune"] {
   box-shadow: 0 4px 24px var(--shadow);
 }
 
-/* Frequency toggle */
+/* Frequency + payment method picker */
 .freq-toggle {
   display: grid;
   grid-template-columns: 1fr 1fr;
   background: var(--surface-2);
   border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 5px;
+  border-radius: 14px;
+  padding: 6px;
+  gap: 4px;
   margin-bottom: 24px;
 }
 .freq-option {
   appearance: none;
   border: none;
   background: transparent;
-  padding: 11px 16px;
-  border-radius: 999px;
+  padding: 14px 12px;
+  border-radius: 10px;
   font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--text-secondary);
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
 }
-.freq-option:hover {
+.freq-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: -0.005em;
+}
+.freq-method {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+.freq-option:hover .freq-name {
   color: var(--text);
 }
 .freq-option.is-active {
   background: var(--surface);
-  color: var(--accent);
-  box-shadow: 0 1px 3px var(--shadow);
+  box-shadow: 0 2px 8px var(--shadow);
 }
+.freq-option.is-active .freq-name { color: var(--accent); }
+.freq-option.is-active .freq-method { color: var(--text-secondary); }
 
 /* Amount selector */
 .amount-selector {
@@ -925,8 +943,8 @@ img.news-logo[alt="Fortune"] {
 .amount-option {
   appearance: none;
   background: var(--surface);
-  border: 1.5px solid var(--border-strong);
-  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
   padding: 14px 8px;
   font-family: inherit;
   font-size: 18px;
@@ -937,27 +955,32 @@ img.news-logo[alt="Fortune"] {
               color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
 }
 .amount-option:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent-light);
   background: var(--accent-bg);
+  transform: translateY(-1px);
 }
 .amount-option:active {
-  transform: translateY(1px);
+  transform: translateY(0);
 }
 .amount-option.is-active {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
-  box-shadow: 0 4px 12px rgba(200, 101, 42, 0.3);
+  box-shadow: 0 4px 14px rgba(200, 101, 42, 0.35);
+  transform: translateY(-1px);
 }
-/* "Other" spans the bottom row */
+/* "Other" spans the bottom row, styled as a softer prompt */
 .amount-other {
   grid-column: 1 / -1;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 12px 8px;
+  color: var(--text-secondary);
+}
+.amount-other.is-active {
+  letter-spacing: 0.08em;
 }
 @media (max-width: 420px) {
   .amount-grid {
@@ -1022,13 +1045,9 @@ img.news-logo[alt="Fortune"] {
   margin: 6px 2px 0;
 }
 
-/* Donate CTAs */
-.donate-ctas {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+/* Donate CTA */
 .donate-btn {
+  width: 100%;
   padding: 16px 20px;
   font-size: 16px;
   line-height: 1.2;

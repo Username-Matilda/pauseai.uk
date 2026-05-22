@@ -85,25 +85,29 @@
 
             <div class="donate-intro-form">
               <form class="donate-form" id="donate-form" novalidate>
-                <!-- Frequency toggle -->
-                <div class="freq-toggle" role="radiogroup" aria-label="Donation frequency">
+                <!-- Frequency + payment method picker (combined) -->
+                <div class="freq-toggle" role="radiogroup" aria-label="How you'd like to give">
                   <button
                     type="button"
                     role="radio"
                     aria-checked="true"
                     data-freq="monthly"
+                    data-method="bacs_debit"
                     class="freq-option is-active"
                   >
-                    Monthly
+                    <span class="freq-name">Monthly</span>
+                    <span class="freq-method">Direct Debit</span>
                   </button>
                   <button
                     type="button"
                     role="radio"
                     aria-checked="false"
                     data-freq="oneoff"
+                    data-method="card"
                     class="freq-option"
                   >
-                    One-off
+                    <span class="freq-name">One-off</span>
+                    <span class="freq-method">Card · Apple Pay · Google Pay</span>
                   </button>
                 </div>
 
@@ -138,26 +142,16 @@
                   </div>
                 </fieldset>
 
-                <!-- CTAs -->
-                <div class="donate-ctas">
-                  <button
-                    type="submit"
-                    class="btn primary large donate-btn"
-                    data-method="bacs_debit"
-                  >
-                    Donate by Direct Debit
-                  </button>
-                  <button
-                    type="submit"
-                    class="btn ghost large donate-btn"
-                    data-method="card"
-                  >
-                    Donate by Card
-                  </button>
-                </div>
+                <!-- Single CTA — text updates with state -->
+                <button
+                  type="submit"
+                  class="btn primary large donate-btn"
+                  id="donate-submit"
+                >
+                  Donate <span data-amount-display>£5</span><span data-freq-suffix> a month</span>
+                </button>
 
                 <p class="form-footnote">
-                  Apple Pay and Google Pay are supported on the card option.
                   Payments are processed securely by
                   <a href="https://stripe.com/en-gb/privacy" target="_blank" rel="noreferrer">Stripe</a>.
                 </p>

@@ -1,9 +1,10 @@
 // PauseAI UK — donate page
 //
-// This script handles the interactive bits of the donation form:
-//   - Monthly / one-off toggle
+// Handles the interactive bits of the donation form:
+//   - Frequency + payment method picker (Monthly · DD / One-off · Card)
 //   - Suggested-amount selection
 //   - "Other" -> custom amount input
+//   - Dynamic CTA label ("Donate £5 a month" / "Donate £5")
 //   - On submit: POST to the Cloudflare Worker that creates a Stripe
 //     Checkout Session and redirects the donor there.
 //
@@ -21,8 +22,9 @@
 
   // ── State ──────────────────────────────────────────────
   const state = {
-    frequency: 'monthly', // 'monthly' | 'oneoff'
-    amount: 5,            // pounds; null when "other" is picked with no value
+    frequency: 'monthly',      // 'monthly' | 'oneoff'
+    paymentMethod: 'bacs_debit', // 'bacs_debit' | 'card'
+    amount: 5,                  // pounds; null when "other" is picked with no value
     isCustom: false,
   };
 
@@ -34,23 +36,41 @@
   const amountOptions = form.querySelectorAll('.amount-option');
   const customWrap = form.querySelector('.amount-custom');
   const customInput = form.querySelector('#custom-amount');
-  const freqSuffix = form.querySelector('[data-freq-suffix]');
-  const donateBtns = form.querySelectorAll('.donate-btn');
+  const submitBtn = form.querySelector('#donate-submit');
+  const amountDisplays = form.querySelectorAll('[data-amount-display]');
+  const freqSuffixes = form.querySelectorAll('[data-freq-suffix]');
 
-  // ── Frequency toggle ───────────────────────────────────
+  // ── UI updates ─────────────────────────────────────────
+  function updateCtaLabel() {
+    const amountText = state.amount && state.amount >= MIN_AMOUNT
+      ? '£' + state.amount
+      : '£…';
+    amountDisplays.forEach((el) => (el.textContent = amountText));
+    freqSuffixes.forEach((el) => {
+      // The custom-amount input has its own suffix ("per month" / "one-off")
+      // that reads slightly differently from the CTA ("a month" / "").
+      if (el.closest('.amount-input-wrap')) {
+        el.textContent = state.frequency === 'monthly' ? 'per month' : 'one-off';
+      } else {
+        el.textContent = state.frequency === 'monthly' ? ' a month' : '';
+      }
+    });
+  }
+
+  // ── Frequency / method tabs ────────────────────────────
   freqOptions.forEach((btn) => {
     btn.addEventListener('click', () => {
       const freq = btn.dataset.freq;
+      const method = btn.dataset.method;
       if (freq === state.frequency) return;
       state.frequency = freq;
+      state.paymentMethod = method;
       freqOptions.forEach((b) => {
         const active = b === btn;
         b.classList.toggle('is-active', active);
         b.setAttribute('aria-checked', active ? 'true' : 'false');
       });
-      if (freqSuffix) {
-        freqSuffix.textContent = freq === 'monthly' ? 'per month' : 'one-off';
-      }
+      updateCtaLabel();
     });
   });
 
@@ -69,12 +89,14 @@
         state.amount = parseInt(val, 10);
         customWrap.hidden = true;
       }
+      updateCtaLabel();
     });
   });
 
   customInput.addEventListener('input', () => {
     const v = parseInt(customInput.value, 10);
     state.amount = Number.isFinite(v) ? v : null;
+    updateCtaLabel();
   });
 
   // ── Submit ─────────────────────────────────────────────
@@ -85,57 +107,58 @@
     return null;
   }
 
-  donateBtns.forEach((btn) => {
-    btn.addEventListener('click', async (event) => {
-      event.preventDefault();
-      const err = validate();
-      if (err) {
-        // Minimal feedback for now — replace with inline error UI later.
-        alert(err);
-        if (state.isCustom) customInput.focus();
-        return;
-      }
-      const method = btn.dataset.method; // 'bacs_debit' | 'card'
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const err = validate();
+    if (err) {
+      alert(err);
+      if (state.isCustom) customInput.focus();
+      return;
+    }
 
-      // Disable buttons while we wait for the redirect.
-      donateBtns.forEach((b) => (b.disabled = true));
+    submitBtn.disabled = true;
+    const previousLabel = submitBtn.innerHTML;
+    submitBtn.textContent = 'Redirecting…';
 
-      try {
-        // TODO(stripe): once the Cloudflare Worker is live, this fetch will
-        // create a Checkout Session server-side and return { url } that we
-        // redirect the donor to. Until then we just log what would be sent.
-        const payload = {
-          amount_pounds: state.amount,
-          frequency: state.frequency, // 'monthly' | 'oneoff'
-          payment_method: method,     // 'bacs_debit' | 'card'
-        };
-        console.log('[donate] would POST to', CHECKOUT_ENDPOINT, payload);
-        alert(
-          'Stripe is not wired up yet. This would create a ' +
-            state.frequency +
-            ' £' +
-            state.amount +
-            ' donation via ' +
-            (method === 'bacs_debit' ? 'Direct Debit' : 'card / wallet') +
-            '.'
-        );
+    try {
+      // TODO(stripe): once the Cloudflare Worker is live, this fetch will
+      // create a Checkout Session server-side and return { url } that we
+      // redirect the donor to. Until then we just log what would be sent.
+      const payload = {
+        amount_pounds: state.amount,
+        frequency: state.frequency,        // 'monthly' | 'oneoff'
+        payment_method: state.paymentMethod, // 'bacs_debit' | 'card'
+      };
+      console.log('[donate] would POST to', CHECKOUT_ENDPOINT, payload);
+      alert(
+        'Stripe is not wired up yet. This would create a ' +
+          state.frequency +
+          ' £' +
+          state.amount +
+          ' donation via ' +
+          (state.paymentMethod === 'bacs_debit' ? 'Direct Debit' : 'card / wallet') +
+          '.'
+      );
 
-        // Real implementation (commented until Worker is deployed):
-        //
-        // const res = await fetch(CHECKOUT_ENDPOINT, {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify(payload),
-        // });
-        // if (!res.ok) throw new Error('Checkout session failed');
-        // const { url } = await res.json();
-        // window.location.href = url;
-      } catch (e) {
-        console.error(e);
-        alert('Something went wrong. Please try again or email joseph@pauseai.info.');
-      } finally {
-        donateBtns.forEach((b) => (b.disabled = false));
-      }
-    });
+      // Real implementation (commented until Worker is deployed):
+      //
+      // const res = await fetch(CHECKOUT_ENDPOINT, {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(payload),
+      // });
+      // if (!res.ok) throw new Error('Checkout session failed');
+      // const { url } = await res.json();
+      // window.location.href = url;
+    } catch (e) {
+      console.error(e);
+      alert('Something went wrong. Please try again or email joseph@pauseai.info.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = previousLabel;
+    }
   });
+
+  // Initial render
+  updateCtaLabel();
 })();
