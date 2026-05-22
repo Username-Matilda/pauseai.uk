@@ -37,24 +37,19 @@
   const customWrap = form.querySelector('.amount-custom');
   const customInput = form.querySelector('#custom-amount');
   const submitBtn = form.querySelector('#donate-submit');
-  const amountDisplays = form.querySelectorAll('[data-amount-display]');
-  const freqSuffixes = form.querySelectorAll('[data-freq-suffix]');
+  const ctaLabel = form.querySelector('#donate-cta-label');
+  const customSuffix = form.querySelector('.amount-input-wrap [data-freq-suffix]');
 
   // ── UI updates ─────────────────────────────────────────
   function updateCtaLabel() {
     const amountText = state.amount && state.amount >= MIN_AMOUNT
       ? '£' + state.amount
       : '£…';
-    amountDisplays.forEach((el) => (el.textContent = amountText));
-    freqSuffixes.forEach((el) => {
-      // The custom-amount input has its own suffix ("per month" / "one-off")
-      // that reads slightly differently from the CTA ("a month" / "").
-      if (el.closest('.amount-input-wrap')) {
-        el.textContent = state.frequency === 'monthly' ? 'per month' : 'one-off';
-      } else {
-        el.textContent = state.frequency === 'monthly' ? ' a month' : '';
-      }
-    });
+    const tail = state.frequency === 'monthly' ? ' a month' : '';
+    if (ctaLabel) ctaLabel.textContent = 'Donate ' + amountText + tail;
+    if (customSuffix) {
+      customSuffix.textContent = state.frequency === 'monthly' ? 'per month' : 'one-off';
+    }
   }
 
   // ── Frequency / method tabs ────────────────────────────
