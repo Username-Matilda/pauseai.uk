@@ -1007,6 +1007,23 @@ img.news-logo[alt="Fortune"] {
   margin: 0 0 8px;
 }
 
+/* Registered company details — required by UK Trading Disclosures regs */
+.registered-details {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 14px;
+  max-width: 720px;
+}
+.registered-details p {
+  margin: 0 0 6px;
+}
+.registered-details strong {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
 @media (max-width: 600px) {
   .donate-form {
     padding: 24px 20px;
