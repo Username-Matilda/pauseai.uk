@@ -796,7 +796,7 @@ img.news-logo[alt="Fortune"] {
  */
 
 .donate-intro {
-  padding: 64px 0 72px;
+  padding: 32px 0 44px;
 }
 .donate-intro-grid {
   display: grid;
@@ -806,7 +806,7 @@ img.news-logo[alt="Fortune"] {
     "text  form"
     "photo form";
   column-gap: 48px;
-  row-gap: 24px;
+  row-gap: 16px;
   align-items: start;
 }
 .donate-intro-head  { grid-area: head; }
@@ -815,23 +815,23 @@ img.news-logo[alt="Fortune"] {
 .donate-intro-form  { grid-area: form; }
 
 .donate-intro h1 {
-  font-size: clamp(40px, 5vw, 62px);
+  font-size: clamp(30px, 3.6vw, 46px);
   letter-spacing: -0.02em;
   line-height: 1.05;
-  margin: 12px 0 0;
+  margin: 4px 0 0;
   color: var(--text);
 }
 .donate-intro .lede {
-  font-size: 18px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.5;
   color: var(--text-secondary);
   margin: 0;
 }
 .donate-intro-text .lede + .lede {
-  margin-top: 16px;
+  margin-top: 12px;
 }
 
-/* Photo — shown at its natural aspect ratio (no cropping). */
+/* Photo — landscape frame, height-capped so it can't dominate the fold. */
 .donate-intro-photo {
   border-radius: 14px;
   overflow: hidden;
@@ -842,6 +842,9 @@ img.news-logo[alt="Fortune"] {
 .donate-intro-photo img {
   width: 100%;
   height: auto;
+  max-height: 280px;
+  object-fit: cover;
+  object-position: center;
   display: block;
 }
 
@@ -872,7 +875,7 @@ img.news-logo[alt="Fortune"] {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 28px;
+  padding: 22px;
   box-shadow: 0 4px 24px var(--shadow);
 }
 
@@ -885,13 +888,13 @@ img.news-logo[alt="Fortune"] {
   border-radius: 14px;
   padding: 6px;
   gap: 4px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 .freq-option {
   appearance: none;
   border: none;
   background: transparent;
-  padding: 14px 12px;
+  padding: 10px 12px;
   border-radius: 10px;
   font-family: inherit;
   cursor: pointer;
@@ -928,7 +931,7 @@ img.news-logo[alt="Fortune"] {
 .amount-selector {
   border: none;
   padding: 0;
-  margin: 0 0 24px;
+  margin: 0 0 16px;
 }
 .amount-selector legend {
   font-size: 13px;
@@ -936,22 +939,22 @@ img.news-logo[alt="Fortune"] {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--accent);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   padding: 0;
 }
 .amount-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 8px;
 }
 .amount-option {
   appearance: none;
   background: #FFF5EC;            /* very light orange wash */
   border: 2px solid #FF9416;      /* orange border at rest */
   border-radius: 12px;
-  padding: 14px 8px;
+  padding: 11px 8px;
   font-family: inherit;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: #A84E1A;                 /* deep orange text */
   cursor: pointer;
@@ -979,7 +982,7 @@ img.news-logo[alt="Fortune"] {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 12px 8px;
+  padding: 9px 8px;
 }
 .amount-other.is-active {
   letter-spacing: 0.08em;
@@ -1050,7 +1053,7 @@ img.news-logo[alt="Fortune"] {
 /* Donate CTA */
 .donate-btn {
   width: 100%;
-  padding: 16px 20px;
+  padding: 13px 20px;
   font-size: 16px;
   line-height: 1.2;
 }
@@ -1060,7 +1063,7 @@ img.news-logo[alt="Fortune"] {
 }
 
 .form-footnote {
-  margin-top: 16px;
+  margin-top: 10px;
   font-size: 14px;
   color: var(--muted);
   line-height: 1.5;
