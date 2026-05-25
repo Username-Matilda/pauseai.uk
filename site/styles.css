@@ -11,9 +11,12 @@
   --text-secondary: #5C544A;
   --muted: #8A7F73;
 
-  /* Accent — burnt terracotta */
-  --accent: #C8652A;
-  --accent-strong: #A84E1A;
+  /* Brand orange + accents (matched to live pauseai.uk) */
+  --pause-orange: #C8652A;
+  --pause-orange-rgb: 200 101 42;
+  --pause-orange-strong: #A84E1A;
+  --accent: #994E1D;
+  --accent-strong: #8C461A;
   --accent-light: #F0D4BC;
   --accent-bg: #FFF5EC;
 
@@ -132,24 +135,24 @@ nav a:hover {
   color: #fff;
 }
 .pill {
-  border: 1.5px solid var(--accent);
-  color: var(--accent) !important;
+  border: 1.5px solid var(--pause-orange);
+  color: var(--pause-orange) !important;
   border-radius: 999px;
   font-weight: 600;
 }
 .pill:hover {
-  background: var(--accent);
+  background: var(--pause-orange);
   color: #fff !important;
-  border-color: var(--accent);
+  border-color: var(--pause-orange);
 }
 .pill-primary {
-  background: var(--accent) !important;
+  background: var(--pause-orange) !important;
   color: #fff !important;
-  border-color: var(--accent) !important;
+  border-color: var(--pause-orange) !important;
 }
 .pill-primary:hover {
-  background: var(--accent-strong) !important;
-  border-color: var(--accent-strong) !important;
+  background: var(--pause-orange-strong) !important;
+  border-color: var(--pause-orange-strong) !important;
 }
 
 /* ── Next Event Banner ─────────────────────────── */
@@ -281,12 +284,12 @@ nav a:hover {
   border: 1px solid transparent;
 }
 .btn.primary {
-  background: var(--accent);
+  background: var(--pause-orange);
   color: #fff;
   box-shadow: 0 2px 8px rgba(200, 101, 42, 0.25);
 }
 .btn.primary:hover {
-  background: var(--accent-strong);
+  background: var(--pause-orange-strong);
   transform: translateY(-1px);
   box-shadow: 0 4px 16px rgba(200, 101, 42, 0.3);
 }
