@@ -812,18 +812,18 @@ img.news-logo[alt="Fortune"] {
 .donate-intro-head  { grid-area: head; }
 .donate-intro-text  { grid-area: text; }
 .donate-intro-photo { grid-area: photo; }
-.donate-intro-form  { grid-area: form; }
+.donate-intro-form  { grid-area: form; align-self: stretch; }
 
 .donate-intro h1 {
-  font-size: clamp(30px, 3.6vw, 46px);
+  font-size: clamp(38px, 4.6vw, 56px);
   letter-spacing: -0.02em;
   line-height: 1.05;
-  margin: 4px 0 0;
+  margin: 6px 0 0;
   color: var(--text);
 }
 .donate-intro .lede {
-  font-size: 15px;
-  line-height: 1.5;
+  font-size: 17px;
+  line-height: 1.6;
   color: var(--text-secondary);
   margin: 0;
 }
@@ -875,8 +875,11 @@ img.news-logo[alt="Fortune"] {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 22px;
+  padding: 28px;
   box-shadow: 0 4px 24px var(--shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Frequency + payment method picker */
@@ -888,13 +891,13 @@ img.news-logo[alt="Fortune"] {
   border-radius: 14px;
   padding: 6px;
   gap: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 .freq-option {
   appearance: none;
   border: none;
   background: transparent;
-  padding: 10px 12px;
+  padding: 12px 12px;
   border-radius: 10px;
   font-family: inherit;
   cursor: pointer;
@@ -931,7 +934,7 @@ img.news-logo[alt="Fortune"] {
 .amount-selector {
   border: none;
   padding: 0;
-  margin: 0 0 16px;
+  margin: 0 0 18px;
 }
 .amount-selector legend {
   font-size: 13px;
@@ -952,9 +955,9 @@ img.news-logo[alt="Fortune"] {
   background: #FFF5EC;            /* very light orange wash */
   border: 2px solid #FF9416;      /* orange border at rest */
   border-radius: 12px;
-  padding: 11px 8px;
+  padding: 13px 8px;
   font-family: inherit;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
   color: #A84E1A;                 /* deep orange text */
   cursor: pointer;
@@ -1053,7 +1056,7 @@ img.news-logo[alt="Fortune"] {
 /* Donate CTA */
 .donate-btn {
   width: 100%;
-  padding: 13px 20px;
+  padding: 15px 20px;
   font-size: 16px;
   line-height: 1.2;
 }
