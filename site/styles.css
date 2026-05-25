@@ -879,7 +879,7 @@ img.news-logo[alt="Fortune"] {
   --cta-orange-strong: #E07A0E;
   --cta-orange-soft: rgba(255, 148, 22, 0.4);
 
-  background: var(--surface);
+  background: var(--accent-bg);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 28px;
